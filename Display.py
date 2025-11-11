@@ -8,7 +8,7 @@ class Display:
         self._label = tk.Label(self._root, text="00:00")
         self._label.pack()
 
-        self._button = tk.Button()
+        self._button = tk.Button(width=10)
         self._button.pack()
 
         self._time = 60
