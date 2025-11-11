@@ -1,10 +1,13 @@
 import time
 
 class Tracker:
-    def __init__(self, duration):
+    def __init__(self):
         self._time = 0
-        self._duration = duration
+        self._duration = 0
         self._start = time.perf_counter()
+
+    def setDuration(self, duration):
+        self._duration = duration
 
     def run(self, func):
         """ Runs a loop that calls func everytime. """
