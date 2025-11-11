@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 class Display:
     def __init__(self):
         self._root = tk.Tk()
