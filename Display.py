@@ -1,4 +1,6 @@
 import tkinter as tk
+from playsound import playsound
+from PIL import Image, ImageTk
 
 class Display:
     def __init__(self):
@@ -23,7 +25,6 @@ class Display:
         self._max_time = 0
         self._time = 0
         self._running = False
-
 
     def addMinute(self):
         self._time += 60
@@ -56,9 +57,10 @@ class Display:
             return None
         if self._time <= 0:
             self._time = self._max_time
+            playsound("drink_water.wav")
         self.update()
-        self._time -= 1
-        self._root.after(1000, self.timer)
+        self._time -= .1
+        self._root.after(100, self.timer)
 
 
     def mainloop(self):
