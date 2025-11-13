@@ -6,21 +6,30 @@ class Display:
     def __init__(self):
         self._root = tk.Tk()
         self._root.title("Waterbro")
-        self._root.geometry("300x200")
+        self._root.geometry("200x200")
+
+        self._canvas = tk.Canvas(self._root, width = 500, height = 400)
+        self._canvas.pack(fill = "both")
+
+        self._image = Image.open("bottle.jpg").resize((200,200))
+        self._photo = ImageTk.PhotoImage(self._image)
+        self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
+
         self._label = tk.Label(self._root, text="00:00")
-        self._label.pack()
+        self._canvas.create_window(100, 50, window=self._label)
+
 
         self._run_button = tk.Button(width=10, text="Start", command = self.run)
-        self._run_button.pack()
+        self._canvas.create_window(100, 75, window=self._run_button)
 
         self._add_button = tk.Button(width=10, text="+1 minute", command = self.addMinute)
-        self._add_button.pack()
+        self._canvas.create_window(100, 100, window=self._add_button)
 
         self._sub_button = tk.Button(width = 10, text = "-1 minute", command = self.subMinute)
-        self._sub_button.pack()
+        self._canvas.create_window(100, 125, window=self._sub_button)
 
         self._stop_button = tk.Button(width = 10, text = "Stop", command = self.stop)
-        self._stop_button.pack()
+        self._canvas.create_window(100, 150, window=self._stop_button)
 
         self._max_time = 0
         self._time = 0
