@@ -36,16 +36,19 @@ class Display:
         self._running = False
 
     def addMinute(self):
+        """ Adds a minute from the timer. """
         self._time += 60
         self._max_time += 60
         self.update()
 
     def subMinute(self):
+        """ Subtracts a minute from the timer. """
         self._time -= 60
         self._max_time -= 60
         self.update()
 
     def stop(self):
+        """ Stops the timer, erases current time if already stopped. """
         if self._running:
             self._running = not self._running
         else:
@@ -54,14 +57,17 @@ class Display:
             self.update()
 
     def update(self):
+        """ Updates the timer label to current time. """
         self._label.config(text=_timeToStr(self._time))
 
     def run(self):
+        """ Runs the timer. """
         if not self._running:
             self._running = True
             self.timer()
 
     def timer(self):
+        """ Timer mechanic. """
         if not self._running:
             return None
         if self._time <= 0:
@@ -73,9 +79,11 @@ class Display:
 
 
     def mainloop(self):
+        """ Mainloop for Tkinter """
         self._root.mainloop()
 
 def _timeToStr(time):
+    """ Converts the time integer to a clock string. """
     time = int(time)
     seconds = time%60
     minutes = time//60
