@@ -1,6 +1,7 @@
 import tkinter as tk
 from playsound import playsound
 from PIL import Image, ImageTk
+from WaterLog import WaterLog
 
 class Display:
     def __init__(self):
@@ -16,8 +17,8 @@ class Display:
         self._photo = ImageTk.PhotoImage(self._image)
         self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
 
-        self._label = tk.Label(self._root, text="00:00")
-        self._canvas.create_window(100, 50, window=self._label)
+        self._time_label = tk.Label(self._root, text="00:00")
+        self._canvas.create_window(100, 50, window=self._time_label)
 
 
         self._run_button = tk.Button(width=10, text="Start", command = self.run)
@@ -34,6 +35,8 @@ class Display:
 
         self._expand_button = tk.Button(width = 10, text = "Log Water", command = self.expand)
         self._canvas.create_window(100, 150, window = self._expand_button)
+
+        self._water_log = WaterLog(self._root, self._canvas)
 
         self._max_time = 0
         self._time = 0
@@ -62,7 +65,7 @@ class Display:
 
     def update(self):
         """ Updates the timer label to current time. """
-        self._label.config(text=_timeToStr(self._time))
+        self._time_label.config(text=_timeToStr(self._time))
 
     def run(self):
         """ Runs the timer. """
@@ -84,8 +87,10 @@ class Display:
     def expand(self):
         if self._root.winfo_width() <= 200:
             self._root.geometry("400x200")
+            self._water_log.show()
         else:
             self._root.geometry("200x200")
+            self._water_log.hide()
 
     def mainloop(self):
         """ Mainloop for Tkinter """
