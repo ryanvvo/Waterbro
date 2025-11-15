@@ -7,6 +7,7 @@ class Display:
         self._root = tk.Tk()
         self._root.title("Waterbro")
         self._root.geometry("200x200")
+        self._root.iconbitmap("bottle.ico")
 
         self._canvas = tk.Canvas(self._root, width = 500, height = 400)
         self._canvas.pack(fill = "both")
@@ -30,6 +31,9 @@ class Display:
 
         self._stop_button = tk.Button(width = 10, text = "Stop", command = self.stop)
         self._canvas.create_window(100, 150, window=self._stop_button)
+
+        self._expand_button = tk.Button(width = 10, text = "Log Water", command = self.expand)
+        self._canvas.create_window(100, 150, window = self._expand_button)
 
         self._max_time = 0
         self._time = 0
@@ -77,6 +81,11 @@ class Display:
         self._time -= .1
         self._root.after(100, self.timer)
 
+    def expand(self):
+        if self._root.winfo_width() <= 200:
+            self._root.geometry("400x200")
+        else:
+            self._root.geometry("200x200")
 
     def mainloop(self):
         """ Mainloop for Tkinter """
