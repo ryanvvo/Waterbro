@@ -1,5 +1,7 @@
 import tkinter as tk
 class WaterLog:
+    ID = 1
+
     def __init__(self, root, canvas):
         self._root = root
         self._canvas = canvas
@@ -17,6 +19,7 @@ class WaterLog:
         self._ids.append(self._canvas.create_window(300, 100, window = self._drank_entry))
         self._ids.append(self._canvas.create_window(300, 125, window = self._drank_button))
         self._ids.append(self._canvas.create_window(300, 155, window = self._undrank_button))
+        return self.ID
 
     def hide(self):
         for value in self._ids:
@@ -24,6 +27,9 @@ class WaterLog:
 
     def update(self):
         self._drank_label.config(text=f"{self._drank} fluid ounces")
+
+    def getDrank(self):
+        return self._drank
 
     def log(self, inc = True):
         try:

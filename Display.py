@@ -2,6 +2,7 @@ import tkinter as tk
 from playsound import playsound
 from PIL import Image, ImageTk
 from WaterLog import WaterLog
+from WaterGoal import WaterGoal
 
 class Display:
     def __init__(self):
@@ -33,14 +34,21 @@ class Display:
         self._stop_button = tk.Button(width = 10, text = "Stop", command = self.stop)
         self._canvas.create_window(100, 150, window=self._stop_button)
 
-        self._expand_button = tk.Button(width = 10, text = "Log Water", command = self.expand)
-        self._canvas.create_window(100, 150, window = self._expand_button)
+        self._log_button = tk.Button(width = 10, text = "Log Water",
+                                        command = lambda: self.expand(self._water_log))
+        self._canvas.create_window(50, 175, window = self._log_button)
+
+        self._goal_button = tk.Button(width = 10, text = "Water Goal",
+                                        command = lambda: self.expand(self._water_goal))
+        self._canvas.create_window(150, 175, window = self._goal_button)
 
         self._water_log = WaterLog(self._root, self._canvas)
+        self._water_goal = WaterGoal(self._root, self._canvas, self._water_log)
 
         self._max_time = 0
         self._time = 0
         self._running = False
+        self._current_side = 0
 
     def addMinute(self):
         """ Adds a minute from the timer. """
@@ -84,13 +92,21 @@ class Display:
         self._time -= .1
         self._root.after(100, self.timer)
 
-    def expand(self):
+    def expand(self, shown):
         if self._root.winfo_width() <= 200:
             self._root.geometry("400x200")
-            self._water_log.show()
-        else:
+            self._current_side = shown.show()
+        elif self._current_side == shown.ID:
             self._root.geometry("200x200")
+            shown.hide()
+        elif self._current_side == WaterLog.ID:
             self._water_log.hide()
+            self._water_goal.show()
+            self._current_side = WaterGoal.ID
+        elif self._current_side == WaterGoal.ID:
+            self._water_goal.hide()
+            self._water_log.show()
+            self._current_side = WaterLog.ID
 
     def mainloop(self):
         """ Mainloop for Tkinter """
