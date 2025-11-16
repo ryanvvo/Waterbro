@@ -1,8 +1,11 @@
 import tkinter as tk
+from WaterLog import WaterLog
+
 class WaterGoal:
     ID = 2
 
-    def __init__(self, root, canvas, log):
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas, log: WaterLog):
+        """ Water goal aspect of Display, meant to find a target goal and how much remaining. """
         self._root = root
         self._canvas = canvas
         self._log = log
@@ -17,22 +20,34 @@ class WaterGoal:
 
         self._goal = 0
 
-    def show(self):
+    def show(self) -> int:
+        """
+        Shows the widgets of Water goal.
+
+        Returns:
+            int: ID of WaterGoal to show display what is currently on the side.
+        """
         self._ids.append(self._canvas.create_window(300, 50, window = self._goal_label))
         self._ids.append(self._canvas.create_window(300, 125, window = self._goal_entry))
         self._ids.append(self._canvas.create_window(300, 150, window = self._calculate_button))
         return self.ID
 
-    def hide(self):
+    def hide(self) -> None:
+        """ Hides all the widgets of Water goal. """
         for value in self._ids:
             self._canvas.delete(value)
 
-    def update(self):
+    def update(self) -> None:
+        """
+        Updates the label to show the current goal, how much water is remaining,
+        and prompt for entry.
+        """
         self._goal_label.config(text=f"Goal: {self._goal} fluid ounces\n"
                                      f"Remaining: {self._goal - self._log.getDrank()} fluid ounces\n"
                                      f"Weight in pounds:")
 
-    def calculate(self):
+    def calculate(self) -> None:
+        """ Calculates the recommended water given pounds, with formula n*.75*.8. """
         try:
             amt = int(self._goal_entry.get())
         except ValueError:

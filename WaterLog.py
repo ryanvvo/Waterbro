@@ -2,7 +2,8 @@ import tkinter as tk
 class WaterLog:
     ID = 1
 
-    def __init__(self, root, canvas):
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas):
+        """ Water log aspect of WaterBro, meant to log the water drank. """
         self._root = root
         self._canvas = canvas
 
@@ -14,24 +15,42 @@ class WaterLog:
 
         self._drank = 0
 
-    def show(self):
+    def show(self) -> int:
+        """
+        Shows the widgets of the water log
+
+        Returns:
+            int: the ID of the log to show Display what is currently on the side.
+        """
         self._ids.append(self._canvas.create_window(300, 50, window = self._drank_label))
         self._ids.append(self._canvas.create_window(300, 100, window = self._drank_entry))
         self._ids.append(self._canvas.create_window(300, 125, window = self._drank_button))
         self._ids.append(self._canvas.create_window(300, 155, window = self._undrank_button))
         return self.ID
 
-    def hide(self):
+    def hide(self) -> None:
+        """ Hides the widgets of the water log. """
         for value in self._ids:
             self._canvas.delete(value)
 
-    def update(self):
+    def update(self) -> None:
+        """ Updates the amount drank to the label. """
         self._drank_label.config(text=f"{self._drank} fluid ounces")
 
-    def getDrank(self):
+    def getDrank(self) -> int:
+        """
+        Returns the amount drank.
+
+        Returns:
+            int: Amount drank
+        """
         return self._drank
 
-    def log(self, inc = True):
+    def log(self, inc = True) -> None:
+        """
+        Logs the amount of water inputted in the entry, deleting if it is invalid.
+        Then, updates the label.
+        """
         try:
             amt = int(self._drank_entry.get())
         except ValueError:
