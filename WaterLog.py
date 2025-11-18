@@ -2,18 +2,26 @@ import tkinter as tk
 class WaterLog:
     ID = 1
 
-    def __init__(self, root: tk.Tk, canvas: tk.Canvas):
-        """ Water log aspect of WaterBro, meant to log the water drank. """
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas, drank: int):
+        """
+        Water log aspect of WaterBro, meant to log the water drank.
+
+        Args:
+            root (tk.Tk): The root of the GUI.
+            canvas (tk.Canvas): The canvas to place the widgets.
+            drank (int): Amount drank from loaded data.
+        """
         self._root = root
         self._canvas = canvas
+        self._drank = drank
 
         self._ids = []
-        self._drank_label = tk.Label(self._root, text="0 fluid ounces")
+        self._drank_label = tk.Label(self._root)
+        self.update()
         self._drank_entry = tk.Entry(self._root, width=10)
         self._drank_button = tk.Button(self._root, text="Drink", command=self.log)
         self._undrank_button = tk.Button(self._root, text="Undrink", command=lambda: self.log(False))
 
-        self._drank = 0
 
     def show(self) -> int:
         """

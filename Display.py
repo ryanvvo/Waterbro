@@ -3,6 +3,7 @@ from playsound import playsound
 from PIL import Image, ImageTk
 from WaterLog import WaterLog
 from WaterGoal import WaterGoal
+from WaterSave import WaterSave
 
 class Display:
     def __init__(self):
@@ -11,7 +12,7 @@ class Display:
         self._root.title("Waterbro")
         self._root.geometry("200x200")
         self._root.iconbitmap("bottle.ico")
-
+        self._root.protocol("WM_DELETE_WINDOW", self.close)
         self._canvas = tk.Canvas(self._root, width = 500, height = 400)
         self._canvas.pack(fill = "both")
 
@@ -29,8 +30,9 @@ class Display:
         self._goal_button = tk.Button(width = 10, text = "Water Goal",
                                         command = lambda: self.expand(self._water_goal))
 
-        self._water_log = WaterLog(self._root, self._canvas)
-        self._water_goal = WaterGoal(self._root, self._canvas, self._water_log)
+        self._water_save = WaterSave()
+        self._water_log = WaterLog(self._root, self._canvas, self._water_save.getDrank())
+        self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
 
         self._initialize_canvas_windows()
 
@@ -117,6 +119,13 @@ class Display:
     def mainloop(self) -> None:
         """ Mainloop for Tkinter """
         self._root.mainloop()
+
+    def close(self) -> None:
+        """ Runs events upon closing the root. """
+        self._water_save.logDrank(self._water_log.getDrank())
+        self._water_save.logGoal(self._water_goal.getGoal())
+        self._root.destroy()
+
 
 def _timeToStr(time: int) -> str:
     """
