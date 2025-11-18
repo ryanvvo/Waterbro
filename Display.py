@@ -13,6 +13,8 @@ class Display:
         self._root.geometry("200x200")
         self._root.iconbitmap("bottle.ico")
         self._root.protocol("WM_DELETE_WINDOW", self.close)
+        self._root.bind_all("<Button-1>", self.checkTime)
+
         self._canvas = tk.Canvas(self._root, width = 500, height = 400)
         self._canvas.pack(fill = "both")
 
@@ -124,7 +126,12 @@ class Display:
         """ Runs events upon closing the root. """
         self._water_save.logDrank(self._water_log.getDrank())
         self._water_save.logGoal(self._water_goal.getGoal())
+        self._water_save.logTime()
         self._root.destroy()
+
+    def checkTime(self, event:tk.Event) -> None:
+        """ Logs the time every action to track a reset. """
+        self._water_save.logTime()
 
 
 def _timeToStr(time: int) -> str:

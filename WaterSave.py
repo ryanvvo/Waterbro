@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 PATH = "water_save.json"
 
@@ -9,6 +10,7 @@ class WaterSave:
         Saves the water log and goal to a file to be used to save information between sessions.
         """
         self._data = _load_data()
+        self.logTime()
 
     def getDrank(self) -> int:
         """
@@ -28,7 +30,7 @@ class WaterSave:
         """
         return self._data["goal"]
 
-    def logDrank(self, drank: int):
+    def logDrank(self, drank: int) -> None:
         """
         Logs the water drank to the file.
 
@@ -39,7 +41,7 @@ class WaterSave:
         with open(PATH, 'w') as file:
             json.dump(self._data, file)
 
-    def logGoal(self, goal: int):
+    def logGoal(self, goal: int) -> None:
         """
         Logs the water goal to the file.
 
@@ -49,6 +51,14 @@ class WaterSave:
         self._data["goal"] = goal
         with open(PATH, 'w') as file:
             json.dump(self._data, file)
+
+    def logTime(self)  -> None:
+        """ Logs the current time to the data. If the time is a different day, reset drank."""
+        logged_time = self._data["date"]
+        new_time = datetime.now().strftime("%Y-%m-%d")
+        if logged_time != new_time:
+            self._data["drank"] = 0
+        self._data["date"] = new_time
 
 def _load_data() -> dict:
     """
@@ -60,4 +70,4 @@ def _load_data() -> dict:
     if os.path.exists(PATH):
         with open(PATH, 'r') as file:
             return json.load(file)
-    return {"drank":0, "goal":0}
+    return {"date":datetime.now().strftime("%Y-%m-%d"), "drank":0, "goal":0}
