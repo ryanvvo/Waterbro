@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from playsound import playsound
 from PIL import Image, ImageTk
 from WaterLog import WaterLog
@@ -9,11 +10,7 @@ class Display:
     def __init__(self):
         """ Main display of WaterBro. Does the timer mechanic and GUI aspect. """
         self._root = tk.Tk()
-        self._root.title("Waterbro")
-        self._root.geometry("200x200")
-        self._root.iconbitmap("bottle.ico")
-        self._root.protocol("WM_DELETE_WINDOW", self.close)
-        self._root.bind_all("<Button-1>", self.checkTime)
+        self._setup_root()
 
         self._canvas = tk.Canvas(self._root, width = 500, height = 400)
         self._canvas.pack(fill = "both")
@@ -32,6 +29,10 @@ class Display:
         self._goal_button = tk.Button(width = 10, text = "Water Goal",
                                         command = lambda: self.expand(self._water_goal))
 
+        self._silent = tk.BooleanVar(value=False)
+        self._silent_check = tk.Checkbutton(self._root, text="Silent mode", variable=self._silent,
+                                            font=("arial", 8))
+
         self._water_save = WaterSave()
         self._water_log = WaterLog(self._root, self._canvas, self._water_save.getDrank())
         self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
@@ -43,6 +44,13 @@ class Display:
         self._running = False
         self._current_side = 0
 
+    def _setup_root(self):
+        self._root.title("Waterbro")
+        self._root.geometry("200x200")
+        self._root.iconbitmap("bottle.ico")
+        self._root.protocol("WM_DELETE_WINDOW", self.close)
+        self._root.bind_all("<Button-1>", self.checkTime)
+
     def _initialize_canvas_windows(self) -> None:
         """ Adds all the widgets to the canvas. """
         self._canvas.create_window(100, 50, window=self._time_label)
@@ -53,6 +61,7 @@ class Display:
         self._canvas.create_window(100, 150, window=self._stop_button)
         self._canvas.create_window(50, 175, window = self._log_button)
         self._canvas.create_window(150, 175, window = self._goal_button)
+        self._canvas.create_window(35, 10, window = self._silent_check)
 
     def addMinute(self) -> None:
         """ Adds a minute from the timer. """
@@ -91,10 +100,17 @@ class Display:
             return None
         if self._time <= 0:
             self._time = self._max_time
-            playsound("drink_water.wav")
+            self._notify()
         self.update()
         self._time -= .1
         self._root.after(100, self.timer)
+
+    def _notify(self) -> None:
+        """ Sends an alert depending on whether silent is on or not. """
+        if not self._silent.get():
+            playsound("drink_water.wav")
+        else:
+            messagebox.showinfo("DRINK", "TIME TO DRINK")
 
     def expand(self, shown: WaterLog|WaterGoal) -> None:
         """
