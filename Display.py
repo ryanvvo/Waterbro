@@ -39,10 +39,11 @@ class Display:
 
         self._initialize_canvas_windows()
 
-        self._max_time = 0
-        self._time = 0
+        self._max_time = self._water_save.getMaxTime()
+        self._time = self._max_time
         self._running = False
         self._current_side = 0
+        self.update()
 
     def _setup_root(self):
         self._root.title("Waterbro")
@@ -143,6 +144,7 @@ class Display:
         self._water_save.logDrank(self._water_log.getDrank())
         self._water_save.logGoal(self._water_goal.getGoal())
         self._water_save.logTime()
+        self._water_save.logMaxTime(self._max_time)
         self._root.destroy()
 
     def checkTime(self, event:tk.Event) -> None:

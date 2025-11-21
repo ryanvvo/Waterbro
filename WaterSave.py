@@ -30,6 +30,15 @@ class WaterSave:
         """
         return self._data["goal"]
 
+    def getMaxTime(self) -> int:
+        """
+        Loads the set time from the file.
+
+        Returns:
+             int: Set time in file.
+        """
+        return self._data["max_time"]
+
     def logDrank(self, drank: int) -> None:
         """
         Logs the water drank to the file.
@@ -60,6 +69,17 @@ class WaterSave:
             self._data["drank"] = 0
         self._data["date"] = new_time
 
+    def logMaxTime(self, max_time: int) -> None:
+        """
+        Logs the set time.
+
+        Args:
+            max_time (int): The amount of seconds set on the timer.
+        """
+        self._data["max_time"] = max_time
+        with open(PATH, 'w') as file:
+            json.dump(self._data, file)
+
 def _load_data() -> dict:
     """
     Loads the data from PATH variable.
@@ -70,4 +90,4 @@ def _load_data() -> dict:
     if os.path.exists(PATH):
         with open(PATH, 'r') as file:
             return json.load(file)
-    return {"date":datetime.now().strftime("%Y-%m-%d"), "drank":0, "goal":0}
+    return {"date":datetime.now().strftime("%Y-%m-%d"), "max_time":0, "drank":0, "goal":0}
