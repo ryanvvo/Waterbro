@@ -46,6 +46,7 @@ class Display:
         self.update()
 
     def _setup_root(self):
+        """ Sets up the settings for the root. """
         self._root.title("Waterbro")
         self._root.geometry("200x200")
         self._root.iconbitmap("bottle.ico")
@@ -86,7 +87,7 @@ class Display:
             self.update()
 
     def update(self) -> None:
-        """ Updates the timer label to current time. """
+        """ Updates the text of the labels. """
         self._time_label.config(text=_timeToStr(self._time))
 
     def run(self) -> None:
