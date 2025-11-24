@@ -19,7 +19,7 @@ class Display:
         self._photo = ImageTk.PhotoImage(self._image)
         self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
 
-        self._time_label = tk.Label(self._root, text="00:00")
+        self._time_label = tk.Label(self._root, text="00:00 / 00:00")
         self._run_button = tk.Button(width=10, text="Start", command = self.run)
         self._add_button = tk.Button(width=10, text="+1 minute", command = self.addMinute)
         self._sub_button = tk.Button(width = 10, text = "-1 minute", command = self.subMinute)
@@ -88,7 +88,7 @@ class Display:
 
     def update(self) -> None:
         """ Updates the text of the labels. """
-        self._time_label.config(text=_timeToStr(self._time))
+        self._time_label.config(text=f"{_timeToStr(self._time)} / {_timeToStr(self._max_time)}")
 
     def run(self) -> None:
         """ Runs the timer. """
