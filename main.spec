@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('drink_water.wav', '.'), ('bottle.jpg', '.')],
+    datas=[('water_save.json', '.'), ('bottle.jpg', '.')],
     hiddenimports=['playsound'],
     hookspath=[],
     hooksconfig={},
