@@ -74,7 +74,9 @@ class Display:
     def subMinute(self) -> None:
         """ Subtracts a minute from the timer. """
         self._time -= 60
+        if self._time < 0: self._time = 0
         self._max_time -= 60
+        if self._max_time < 0: self._max_time = 0
         self.update()
 
     def stop(self) -> None:

@@ -1,10 +1,11 @@
 Implement Tooltip.py
 Add visuals to WaterGoal
 Add version number to titles
-Settings tab that holds silent mode, volume, and implements own sound and bg
+Settings tab that holds silent mode, volume, and implements own sound and bg, fluid options
+Log Water visuals
 ? Any way to make silent mode pop out more
 File path for icons, jpgs, and sounds
 
+
 Bugs:
 Fix WaterLog not saving max time
-Negative numbers allowed for max time when initializing
