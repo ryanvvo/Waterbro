@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 from WaterLog import WaterLog
 from WaterGoal import WaterGoal
 from WaterSave import WaterSave
+from Tooltip import TooltipManager
 
 class Display:
     def __init__(self):
@@ -15,11 +16,14 @@ class Display:
         self._canvas = tk.Canvas(self._root, width = 500, height = 400)
         self._canvas.pack(fill = "both")
 
+        self.tooltip = TooltipManager(self._canvas)
+
         self._image = Image.open("bottle.jpg").resize((200,200))
         self._photo = ImageTk.PhotoImage(self._image)
         self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
 
         self._time_label = tk.Label(self._root, text="00:00 / 00:00")
+        self.tooltip.make_tooltip(self._time_label, "TESTING")
         self._run_button = tk.Button(width=10, text="Start", command = self.run)
         self._add_button = tk.Button(width=10, text="+1 minute", command = self.addMinute)
         self._sub_button = tk.Button(width = 10, text = "-1 minute", command = self.subMinute)
