@@ -23,7 +23,6 @@ class Display:
         self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
 
         self._time_label = tk.Label(self._root, text="00:00 / 00:00")
-        self.tooltip.make_tooltip(self._time_label, "TESTING")
         self._run_button = tk.Button(width=10, text="Start", command = self.run)
         self._add_button = tk.Button(width=10, text="+1 minute", command = self.addMinute)
         self._sub_button = tk.Button(width = 10, text = "-1 minute", command = self.subMinute)

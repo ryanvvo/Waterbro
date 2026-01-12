@@ -1,4 +1,3 @@
-Implement Tooltip.py
 Add visuals to WaterGoal
 Add version number to titles
 Settings tab that holds silent mode, volume, and implements own sound and bg, fluid options

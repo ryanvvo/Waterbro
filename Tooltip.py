@@ -49,5 +49,5 @@ class TooltipManager:
             text (str): Text tooltip that is shown.
         """
         self.widget_texts[widget] = text
-        widget.bind("<Enter>", lambda _: self.enter(widget))
-        widget.bind("<Leave>", lambda _: self.leave())
+        widget.bind("<Enter>", lambda _: self._enter(widget))
+        widget.bind("<Leave>", lambda _: self._leave())
