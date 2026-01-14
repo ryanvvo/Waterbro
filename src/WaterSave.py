@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-PATH = "water_save.json"
+SAVE_PATH = "././save/water_save.json"
 
 class WaterSave:
     def __init__(self):
@@ -47,7 +47,7 @@ class WaterSave:
             drank (int): The amount drank from WaterLog.
         """
         self._data["drank"] = drank
-        with open(PATH, 'w') as file:
+        with open(SAVE_PATH, 'w') as file:
             json.dump(self._data, file)
 
     def logGoal(self, goal: int) -> None:
@@ -58,7 +58,7 @@ class WaterSave:
             goal (int): The goal amount from WaterGoal.
         """
         self._data["goal"] = goal
-        with open(PATH, 'w') as file:
+        with open(SAVE_PATH, 'w') as file:
             json.dump(self._data, file)
 
     def logTime(self)  -> None:
@@ -77,7 +77,7 @@ class WaterSave:
             max_time (int): The amount of seconds set on the timer.
         """
         self._data["max_time"] = max_time
-        with open(PATH, 'w') as file:
+        with open(SAVE_PATH, 'w') as file:
             json.dump(self._data, file)
 
 def _load_data() -> dict:
@@ -87,7 +87,7 @@ def _load_data() -> dict:
     returns:
         dict: Dictionary that holds the data.
     """
-    if os.path.exists(PATH):
-        with open(PATH, 'r') as file:
+    if os.path.exists(SAVE_PATH):
+        with open(SAVE_PATH, 'r') as file:
             return json.load(file)
     return {"date":datetime.now().strftime("%Y-%m-%d"), "max_time":0, "drank":0, "goal":0}

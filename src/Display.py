@@ -7,6 +7,10 @@ from WaterGoal import WaterGoal
 from WaterSave import WaterSave
 from Tooltip import TooltipManager
 
+BACKGROUND_FILE = "././assets/bottle.jpg"
+SOUND_FILE = "././assets/drink_water.wav"
+ICON_FILE = "././assets/bottle.ico"
+
 class Display:
     def __init__(self):
         """ Main display of WaterBro. Does the timer mechanic and GUI aspect. """
@@ -18,7 +22,7 @@ class Display:
 
         self.tooltip = TooltipManager(self._canvas)
 
-        self._image = Image.open("bottle.jpg").resize((200,200))
+        self._image = Image.open(BACKGROUND_FILE).resize((200, 200))
         self._photo = ImageTk.PhotoImage(self._image)
         self._canvas.create_image(0, 0, image = self._photo, anchor = "nw")
 
@@ -52,7 +56,7 @@ class Display:
         """ Sets up the settings for the root. """
         self._root.title("Waterbro")
         self._root.geometry("200x200")
-        self._root.iconbitmap("bottle.ico")
+        self._root.iconbitmap(ICON_FILE)
         self._root.protocol("WM_DELETE_WINDOW", self.close)
         self._root.bind_all("<Button-1>", self.checkTime)
 
@@ -115,7 +119,7 @@ class Display:
     def _notify(self) -> None:
         """ Sends an alert depending on whether silent is on or not. """
         if not self._silent.get():
-            playsound("drink_water.wav")
+            playsound(SOUND_FILE)
         else:
             messagebox.showinfo("DRINK", "TIME TO DRINK")
 

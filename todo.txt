@@ -7,6 +7,5 @@ Windows notification, have silent mode turn off alarm
 Settings:
 Creat tab
 Move Silent Mode
-File path for icons, jpgs, and sounds
 Custom sounds and images
 Fluid options
