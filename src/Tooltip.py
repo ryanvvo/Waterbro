@@ -1,9 +1,13 @@
-# Tooltip.py holds a class that adds a wrapper to a widget that enables tooltips.
-
 import tkinter as tk
 
 class TooltipManager:
     def __init__(self, canvas: tk.Canvas):
+        """
+        Object manages tooltips and wraps widgets with tooltips using make_tooltip.
+
+        Args:
+            canvas: Main canvas that holds the widget and will show the tooltip.
+        """
         self.widget_texts = {} # Dictionary holding {widget: assigned text}
         self.text_id = 0 # ID of current text being shown.
         self.canvas = canvas # Display canvas.
