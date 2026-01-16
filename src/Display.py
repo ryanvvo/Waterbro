@@ -6,6 +6,7 @@ from WaterLog import WaterLog
 from WaterGoal import WaterGoal
 from WaterSave import WaterSave
 from Tooltip import TooltipManager
+from Settings import Settings
 
 BACKGROUND_FILE = "././assets/bottle.jpg"
 SOUND_FILE = "././assets/drink_water.wav"
@@ -35,6 +36,8 @@ class Display:
                                         command = lambda: self.expand(self._water_log))
         self._goal_button = tk.Button(width = 10, text = "Water Goal",
                                         command = lambda: self.expand(self._water_goal))
+        self._settings_button = tk.Button(width = 5, text = "Settings",
+                                          command = lambda: self.expand(self._settings))
 
         self._silent = tk.BooleanVar(value=False)
         self._silent_check = tk.Checkbutton(self._root, text="Silent mode", variable=self._silent,
@@ -43,16 +46,17 @@ class Display:
         self._water_save = WaterSave()
         self._water_log = WaterLog(self._root, self._canvas, self._water_save.getDrank())
         self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
+        self._settings = Settings(self._root, self._canvas)
 
         self._initialize_canvas_windows()
 
         self._max_time = self._water_save.getMaxTime()
         self._time = self._max_time
         self._running = False
-        self._current_side = 0
+        self._current_side = None
         self.update()
 
-    def _setup_root(self):
+    def _setup_root(self) -> None:
         """ Sets up the settings for the root. """
         self._root.title("Waterbro")
         self._root.geometry("200x200")
@@ -71,6 +75,7 @@ class Display:
         self._canvas.create_window(50, 175, window = self._log_button)
         self._canvas.create_window(150, 175, window = self._goal_button)
         self._canvas.create_window(35, 10, window = self._silent_check)
+        self._canvas.create_window(175, 15, window = self._settings_button)
 
     def addMinute(self) -> None:
         """ Adds a minute from the timer. """
@@ -123,27 +128,24 @@ class Display:
         else:
             messagebox.showinfo("DRINK", "TIME TO DRINK")
 
-    def expand(self, shown: WaterLog|WaterGoal) -> None:
+    def expand(self, shown) -> None:
         """
         Expands the window to show side information.
 
         Args:
-            shown (WaterLog|WaterGoal): The element that is being shown.
+            shown: The element that is being shown.
         """
         if self._root.winfo_width() <= 200:
             self._root.geometry("400x200")
-            self._current_side = shown.show()
-        elif self._current_side == shown.ID:
+            self._current_side = shown
+            shown.show()
+        elif self._current_side == shown:
             self._root.geometry("200x200")
             shown.hide()
-        elif self._current_side == WaterLog.ID:
-            self._water_log.hide()
-            self._water_goal.show()
-            self._current_side = WaterGoal.ID
-        elif self._current_side == WaterGoal.ID:
-            self._water_goal.hide()
-            self._water_log.show()
-            self._current_side = WaterLog.ID
+        else:
+            self._current_side.hide()
+            self._current_side = shown
+            shown.show()
 
     def mainloop(self) -> None:
         """ Mainloop for Tkinter """

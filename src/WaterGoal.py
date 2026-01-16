@@ -2,8 +2,6 @@ import tkinter as tk
 from WaterLog import WaterLog
 
 class WaterGoal:
-    ID = 2
-
     def __init__(self, root: tk.Tk, canvas: tk.Canvas, log: WaterLog, goal: int):
         """
         Water goal aspect of Display, meant to find a target goal and how much remaining.
@@ -26,7 +24,7 @@ class WaterGoal:
         self._calculate_button = tk.Button(self._root, width=10, text="Calculate",
                                            command=self.calculate)
 
-    def show(self) -> int:
+    def show(self) -> None:
         """
         Shows the widgets of Water goal.
 
@@ -36,7 +34,6 @@ class WaterGoal:
         self._ids.append(self._canvas.create_window(300, 50, window = self._goal_label))
         self._ids.append(self._canvas.create_window(300, 125, window = self._goal_entry))
         self._ids.append(self._canvas.create_window(300, 150, window = self._calculate_button))
-        return self.ID
 
     def hide(self) -> None:
         """ Hides all the widgets of Water goal. """

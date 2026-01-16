@@ -1,7 +1,5 @@
 import tkinter as tk
 class WaterLog:
-    ID = 1
-
     def __init__(self, root: tk.Tk, canvas: tk.Canvas, drank: int):
         """
         Water log aspect of WaterBro, meant to log the water drank.
@@ -23,7 +21,7 @@ class WaterLog:
         self._undrank_button = tk.Button(self._root, text="Undrink", command=lambda: self.log(False))
 
 
-    def show(self) -> int:
+    def show(self) -> None:
         """
         Shows the widgets of the water log
 
@@ -34,7 +32,6 @@ class WaterLog:
         self._ids.append(self._canvas.create_window(300, 100, window = self._drank_entry))
         self._ids.append(self._canvas.create_window(300, 125, window = self._drank_button))
         self._ids.append(self._canvas.create_window(300, 155, window = self._undrank_button))
-        return self.ID
 
     def hide(self) -> None:
         """ Hides the widgets of the water log. """
