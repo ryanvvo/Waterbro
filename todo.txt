@@ -1,11 +1,11 @@
 Add visuals to WaterGoal
 Add version number to titles
-Settings tab that holds silent mode, volume, and implements own sound and bg, fluid options
 Log Water visuals
 Windows notification, have silent mode turn off alarm
 
 Settings:
-Creat tab
+Implement settings
 Move Silent Mode
 Custom sounds and images
 Fluid options
+New sounds
