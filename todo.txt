@@ -5,6 +5,7 @@ Windows notification, have silent mode turn off alarm
 
 Settings:
 Implement settings
+    - Finish connecting settings to save
 Move Silent Mode
 Custom sounds and images
 Fluid options

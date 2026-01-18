@@ -1,7 +1,7 @@
 import tkinter as tk
 
 class Settings:
-    def __init__(self, root: tk.Tk, canvas: tk.Canvas):
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas, settings: dict):
         """
         Settings hold user choice of the program.
 
@@ -11,15 +11,20 @@ class Settings:
         """
         self._root = root
         self._canvas = canvas
+        self._settings = settings
 
         self._ids = []
         self._settings_label = tk.Label(self._root, text="Settings")
         self._apply_button = tk.Button(self._root, width=10, text="Apply",
                                            command=self.apply)
+
         self._initialize_settings()
 
     def _initialize_settings(self):
-        pass
+        self._silent = tk.BooleanVar(value = False)
+        self._silent_check = tk.Checkbutton(self._root, text = "Silent mode",
+                                            variable = self._silent,
+                                            font = ("arial", 8))
 
     def show(self) -> None:
         """
@@ -29,6 +34,8 @@ class Settings:
             int: ID of WaterGoal to show display what is currently on the side.
         """
         self._ids.append(self._canvas.create_window(300, 50, window = self._settings_label))
+        self._ids.append(self._canvas.create_window(300, 90, window = self._apply_button))
+        self._ids.append(self._canvas.create_window(300, 70, window = self._silent_check))
 
 
     def hide(self) -> None:

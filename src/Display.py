@@ -39,14 +39,10 @@ class Display:
         self._settings_button = tk.Button(width = 5, text = "Settings",
                                           command = lambda: self.expand(self._settings))
 
-        self._silent = tk.BooleanVar(value=False)
-        self._silent_check = tk.Checkbutton(self._root, text="Silent mode", variable=self._silent,
-                                            font=("arial", 8))
-
         self._water_save = WaterSave()
         self._water_log = WaterLog(self._root, self._canvas, self._water_save.getDrank())
         self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
-        self._settings = Settings(self._root, self._canvas)
+        self._settings = Settings(self._root, self._canvas, self._water_save.getSettings())
 
         self._initialize_canvas_windows()
 
@@ -74,7 +70,6 @@ class Display:
         self._canvas.create_window(100, 150, window=self._stop_button)
         self._canvas.create_window(50, 175, window = self._log_button)
         self._canvas.create_window(150, 175, window = self._goal_button)
-        self._canvas.create_window(35, 10, window = self._silent_check)
         self._canvas.create_window(175, 15, window = self._settings_button)
 
     def addMinute(self) -> None:

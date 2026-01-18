@@ -39,6 +39,15 @@ class WaterSave:
         """
         return self._data["max_time"]
 
+    def getSettings(self) -> dict:
+        """
+        Loads the settings from the file.
+
+        Returns:
+            dict: Settings of the file.
+        """
+        return self._data["settings"]
+
     def logDrank(self, drank: int) -> None:
         """
         Logs the water drank to the file.
@@ -69,6 +78,12 @@ class WaterSave:
             self._data["drank"] = 0
         self._data["date"] = new_time
 
+    def logSettings(self, settings: dict) -> None:
+        """ Logs the current settings to the data. """
+        self._data["settings"] = settings
+        with open(SAVE_PATH, 'w') as file:
+            json.dump(self._data, file)
+
     def logMaxTime(self, max_time: int) -> None:
         """
         Logs the set time.
@@ -90,4 +105,5 @@ def _load_data() -> dict:
     if os.path.exists(SAVE_PATH):
         with open(SAVE_PATH, 'r') as file:
             return json.load(file)
-    return {"date":datetime.now().strftime("%Y-%m-%d"), "max_time":0, "drank":0, "goal":0}
+    return {"date":datetime.now().strftime("%Y-%m-%d"), "max_time":0, "drank":0, "goal":0,
+            "settings":{"silent": False}}
