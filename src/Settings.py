@@ -21,7 +21,7 @@ class Settings:
         self._initialize_settings()
 
     def _initialize_settings(self):
-        self._silent = tk.BooleanVar(value = False)
+        self._silent = tk.BooleanVar(value = self._settings["silent"])
         self._silent_check = tk.Checkbutton(self._root, text = "Silent mode",
                                             variable = self._silent,
                                             font = ("arial", 8))
@@ -47,5 +47,14 @@ class Settings:
         """
         Applies the settings.
         """
+        self._settings["silent"] = self._silent.get()
 
+    def getSettings(self) -> dict:
+        """
+        Returns the current settings.
+
+        Returns:
+            dict: Current settings
+        """
+        return self._settings
 

@@ -118,7 +118,7 @@ class Display:
 
     def _notify(self) -> None:
         """ Sends an alert depending on whether silent is on or not. """
-        if not self._silent.get():
+        if not self._settings.getSettings()["silent"]:
             playsound(SOUND_FILE)
         else:
             messagebox.showinfo("DRINK", "TIME TO DRINK")
@@ -152,6 +152,7 @@ class Display:
         self._water_save.logGoal(self._water_goal.getGoal())
         self._water_save.logTime()
         self._water_save.logMaxTime(self._max_time)
+        self._water_save.logSettings(self._settings.getSettings())
         self._root.destroy()
 
     def checkTime(self, event:tk.Event) -> None:
