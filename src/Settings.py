@@ -25,6 +25,10 @@ class Settings:
         self._silent_check = tk.Checkbutton(self._root, text = "Silent mode",
                                             variable = self._silent,
                                             font = ("arial", 8))
+        self._metric = tk.BooleanVar(value = self._settings["metric"])
+        self._metric_check = tk.Checkbutton(self._root, text = "Metric system",
+                                            variable = self._metric,
+                                            font = ("arial", 8))
 
     def show(self) -> None:
         """
@@ -34,8 +38,9 @@ class Settings:
             int: ID of WaterGoal to show display what is currently on the side.
         """
         self._ids.append(self._canvas.create_window(300, 50, window = self._settings_label))
-        self._ids.append(self._canvas.create_window(300, 90, window = self._apply_button))
+        self._ids.append(self._canvas.create_window(300, 110, window = self._apply_button))
         self._ids.append(self._canvas.create_window(300, 70, window = self._silent_check))
+        self._ids.append(self._canvas.create_window(300, 90, window = self._metric_check))
 
 
     def hide(self) -> None:
@@ -45,9 +50,10 @@ class Settings:
 
     def apply(self) -> None:
         """
-        Applies the settings.
+        Saves the settings.
         """
         self._settings["silent"] = self._silent.get()
+        self._settings["metric"] = self._metric.get()
 
     def getSettings(self) -> dict:
         """
