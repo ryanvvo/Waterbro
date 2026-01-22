@@ -1,20 +1,23 @@
 import tkinter as tk
+import WaterTools
+import WaterSave
 class WaterLog:
-    def __init__(self, root: tk.Tk, canvas: tk.Canvas, drank: int):
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas, save: WaterSave):
         """
         Water log aspect of WaterBro, meant to log the water drank.
 
         Args:
             root (tk.Tk): The root of the GUI.
             canvas (tk.Canvas): The canvas to place the widgets.
-            drank (int): Amount drank from loaded data.
+            save (WaterSave): Save object.
         """
         self._root = root
         self._canvas = canvas
-        self._drank = drank
+        self._drank = save.getDrank()
 
         self._ids = []
         self._drank_label = tk.Label(self._root)
+        self._water_save = save
         self.update()
         self._drank_entry = tk.Entry(self._root, width=10)
         self._drank_button = tk.Button(self._root, text="Drink", command=self.log)
@@ -39,8 +42,17 @@ class WaterLog:
             self._canvas.delete(value)
 
     def update(self) -> None:
-        """ Updates the amount drank to the label. """
-        self._drank_label.config(text=f"{self._drank} fluid ounces")
+        """
+        Updates the amount drank to the label.
+
+        Args:
+            metric (bool): Boolean that determines whether fluid ounces or liters.
+        """
+        metric = self._water_save.getSettings()["metric"]
+        if metric:
+            self._drank_label.config(text = f"{WaterTools.ounce2liter(self._drank)} liters")
+        else:
+            self._drank_label.config(text = f"{self._drank} fluid ounces")
 
     def getDrank(self) -> int:
         """
@@ -64,10 +76,13 @@ class WaterLog:
         if not inc:
             amt *= -1
 
-        self._drank += amt
+        if self._water_save.getSettings()["metric"]:
+            self._drank += WaterTools.liter2ounce(amt)
+        else:
+            self._drank += amt
+
         if self._drank < 0:
             self._drank = 0
-
         self.update()
 
 

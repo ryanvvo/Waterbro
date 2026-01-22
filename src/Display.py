@@ -40,7 +40,7 @@ class Display:
                                           command = lambda: self.expand(self._settings))
 
         self._water_save = WaterSave()
-        self._water_log = WaterLog(self._root, self._canvas, self._water_save.getDrank())
+        self._water_log = WaterLog(self._root, self._canvas, self._water_save)
         self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
         self._settings = Settings(self._root, self._canvas, self._water_save.getSettings())
 
