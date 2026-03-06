@@ -2,11 +2,11 @@
 
 
 a = Analysis(
-    ['main.py'],
+    ['src\\main.py'],
     pathex=[],
     binaries=[],
-    datas=[('water_save.json', '.'), ('bottle.jpg', '.')],
-    hiddenimports=['playsound'],
+    datas=[('assets', 'assets'), ('save', 'save')],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['bottle.ico'],
+    icon=['assets\\bottle.ico'],
 )

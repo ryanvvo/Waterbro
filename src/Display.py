@@ -40,9 +40,9 @@ class Display:
                                           command = lambda: self.expand(self._settings))
 
         self._water_save = WaterSave()
-        self._water_log = WaterLog(self._root, self._canvas, self._water_save)
-        self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal())
         self._settings = Settings(self._root, self._canvas, self._water_save.getSettings())
+        self._water_log = WaterLog(self._root, self._canvas, self._water_save)
+        self._water_goal = WaterGoal(self._root, self._canvas, self._water_log, self._water_save.getGoal(), self._settings)
 
         self._initialize_canvas_windows()
 
@@ -130,6 +130,7 @@ class Display:
         Args:
             shown: The element that is being shown.
         """
+        self._update_widgets()
         if self._root.winfo_width() <= 200:
             self._root.geometry("400x200")
             self._current_side = shown
@@ -158,6 +159,10 @@ class Display:
     def checkTime(self, event:tk.Event) -> None:
         """ Logs the time every action to track a reset. """
         self._water_save.logTime()
+
+    def _update_widgets(self):
+        self._water_log.update()
+        self._water_goal.update()
 
 
 def _timeToStr(time: int) -> str:

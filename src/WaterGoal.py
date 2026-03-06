@@ -1,8 +1,9 @@
 import tkinter as tk
 from WaterLog import WaterLog
-
+from Settings import Settings
+import WaterTools
 class WaterGoal:
-    def __init__(self, root: tk.Tk, canvas: tk.Canvas, log: WaterLog, goal: int):
+    def __init__(self, root: tk.Tk, canvas: tk.Canvas, log: WaterLog, goal: int, settings: Settings):
         """
         Water goal aspect of Display, meant to find a target goal and how much remaining.
 
@@ -16,6 +17,7 @@ class WaterGoal:
         self._canvas = canvas
         self._log = log
         self._goal = goal
+        self._settings = settings
 
         self._ids = []
         self._goal_label = tk.Label(self._root)
@@ -45,9 +47,17 @@ class WaterGoal:
         Updates the label to show the current goal, how much water is remaining,
         and prompt for entry.
         """
-        self._goal_label.config(text=f"Goal: {self._goal} fluid ounces\n"
-                                     f"Remaining: {self._goal - self._log.getDrank()} fluid ounces\n"
-                                     f"Weight in pounds:")
+        metric = self._settings.getSettings()["metric"]
+        if metric:
+
+            self._goal_label.config(text = f"Goal: {WaterTools.ounce2liter(self._goal)} liters\n"
+                                           f"Remaining: {WaterTools.ounce2liter(self._goal - self._log.getDrank())} liters\n"
+                                           f"Weight in kg:")
+        else:
+            self._goal_label.config(text = f"Goal: {self._goal} fluid ounces\n"
+                                           f"Remaining: {self._goal - self._log.getDrank()} fluid ounces\n"
+                                           f"Weight in pounds:")
+
 
     def getGoal(self) -> int:
         """
@@ -65,6 +75,10 @@ class WaterGoal:
         except ValueError:
             amt = 0
             self._goal_entry.delete(0, tk.END)
+
+        metric = self._settings.getSettings()["metric"]
+        if metric:
+            amt = WaterTools.kg2lbs(amt)
 
         self._goal = amt * .75 * .8 # 75% of pound to water, 80% of water comes from drinks
         self.update()
